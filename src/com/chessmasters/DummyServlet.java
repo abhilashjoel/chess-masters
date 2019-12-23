@@ -1,5 +1,8 @@
 package com.chessmasters;
 
+import com.chessmasters.characters.Characters;
+import com.chessmasters.characters.Movements;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
