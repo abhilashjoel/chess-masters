@@ -1,20 +1,20 @@
 package com.chessmasters.model;
 
-import com.chessmasters.characters.Characters;
 import com.google.common.collect.Table;
+import com.chessmasters.characters.Character;
 
 public class Board {
-    Table<Integer, Integer, Characters> board;
+    Table<Integer, Integer, Character> board;
 
 
     public Board() {
     }
 
-    public Table<Integer, Integer, Characters> getBoard() {
+    public Table<Integer, Integer, Character> getBoard() {
         return board;
     }
 
-    public void setBoard(Table<Integer, Integer, Characters> board) {
+    public void setBoard(Table<Integer, Integer, Character> board) {
         this.board = board;
     }
 }

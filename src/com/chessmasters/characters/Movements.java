@@ -3,11 +3,12 @@ package com.chessmasters.characters;
 import com.google.common.collect.Sets;
 
 //TODO rename to Movement
+//TODO remove all the Movement logic from here. CharacterHelper will take care of that.
 public enum Movements {
     STEP_1(0, 1),
     STEP_2(0, 2),
     STEP_1_black(0, -1),
-    STEP_2_black(0, 2),
+    STEP_2_black(0, -2),
 
     //TODO Find a way to compute this.
     L_STEP_1(1, 2),
@@ -22,6 +23,7 @@ public enum Movements {
 
 
     int dx, dy;
+//    boolean canStepOver, canHitDestinationPawn, mustHitDestinationPawn;
 
     Movements(int dx, int dy) {
 
