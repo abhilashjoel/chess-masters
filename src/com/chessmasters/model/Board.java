@@ -1,5 +1,6 @@
 package com.chessmasters.model;
 
+import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.chessmasters.characters.Character;
 
@@ -8,6 +9,10 @@ public class Board {
 
 
     public Board() {
+    }
+
+    public Board(Board board) {
+        this.board = HashBasedTable.create(board.getBoard());
     }
 
     public Table<Integer, Integer, Character> getBoard() {

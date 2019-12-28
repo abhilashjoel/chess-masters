@@ -6,7 +6,6 @@ import com.chessmasters.helper.CharacterHelper;
 import com.chessmasters.model.Board;
 import com.chessmasters.model.Move;
 import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.Sets;
 
 import java.util.List;
 
@@ -28,6 +27,7 @@ public class Main {
         CharacterHelper.makeAMove(board, character, allMovesForPawn.get(0));
 
         BoardHelper.printBoard(board);
+
 
 
     }

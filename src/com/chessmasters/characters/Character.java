@@ -2,6 +2,8 @@ package com.chessmasters.characters;
 
 import com.chessmasters.model.CharacterState;
 
+import java.util.Objects;
+
 public class Character {
     ChessMen type;
     Team team;
@@ -10,6 +12,8 @@ public class Character {
     int x;
     int y;
     boolean isPrimodial;
+    int moveValue = 0;
+
 
     public Character(ChessMen type, Team team, int id) {
         this.type = type;
@@ -17,12 +21,17 @@ public class Character {
         this.id = id;
     }
 
+
     public ChessMen getType() {
         return type;
     }
 
     public Team getTeam() {
         return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 
     public int getId() {
@@ -55,6 +64,30 @@ public class Character {
 
     public void setPrimodial(boolean primodial) {
         isPrimodial = primodial;
+    }
+
+    public Character(Character other) {
+        this.type = other.type;
+        this.team = other.team;
+        this.id = other.id;
+        this.state = other.state;
+        this.x = other.x;
+        this.y = other.y;
+        this.isPrimodial = other.isPrimodial;
+        this.moveValue = other.moveValue;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Character character = (Character) o;
+        return id == character.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     public static enum Team {
