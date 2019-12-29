@@ -223,6 +223,17 @@ public class BoardHelper {
     }
 
 
+    public static Board getBoard(List<List<String>> grid) {
+        for(List<String> row : grid) {
+            for(String chessMen : row) {
+                if(chessMen != null && !chessMen.isEmpty()) {
+
+                }
+            }
+
+        }
+    }
+
 
 
 }

@@ -29,6 +29,18 @@ public class CharacterHelper {
         put(ChessMen.PAWN, 8);
     }};
 
+    public static final Map<String, Character> repToCharacterMap = new HashMap() {{
+        put("WK", new Character(ChessMen.KING, Character.Team.WHITE));
+        put("BK", new Character(ChessMen.KING, Character.Team.BLACK));
+        put("BQ", new Character(ChessMen.QUEEN, Character.Team.BLACK));
+        put("WQ", new Character(ChessMen.QUEEN, Character.Team.WHITE));
+        put("BR", new Character(ChessMen.ROOK, Character.Team.BLACK));
+        put("WR", new Character(ChessMen.ROOK, Character.Team.WHITE));
+        put("BKn", new Character(ChessMen.KNIGHT, Character.Team.BLACK));
+        put("WKn", new Character(ChessMen.KNIGHT, Character.Team.WHITE));
+        put()
+    }}
+
     public static Characters getInitialCharacterSet(Character.Team team)
     {
         int id = 0;

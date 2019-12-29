@@ -22,6 +22,9 @@ public class Character {
         this.id = id;
     }
 
+    public Character(ChessMen type, Team team) {
+        this(type, team, 0);
+    }
 
     public ChessMen getType() {
         return type;

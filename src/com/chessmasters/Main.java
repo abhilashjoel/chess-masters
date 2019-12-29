@@ -8,6 +8,7 @@ import com.chessmasters.model.Board;
 import com.chessmasters.model.Move;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Sets;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -31,8 +32,11 @@ public class Main {
         board.setBoard(HashBasedTable.create());
         BoardHelper.positionCharactersOnBoard(board);
         BoardHelper.printBoard(board);
+        System.out.println(board.getBoard());
+        System.out.println(board.getJson());
 
-        for(int i = 0; i < 300; i++) {
+
+        for(int i = 0; i < 00; i++) {
             Character.Team team = Character.Team.WHITE;
             if(i % 2 == 0)
                 team = Character.Team.BLACK;
