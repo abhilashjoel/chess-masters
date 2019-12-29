@@ -1,6 +1,7 @@
 package com.chessmasters.characters;
 
 import com.chessmasters.model.CharacterState;
+import com.google.common.base.MoreObjects;
 
 import java.util.Objects;
 
@@ -88,6 +89,20 @@ public class Character {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("type", type)
+                .add("team", team)
+                .add("id", id)
+                .add("state", state)
+                .add("x", x)
+                .add("y", y)
+                .add("isPrimodial", isPrimodial)
+                .add("moveValue", moveValue)
+                .toString();
     }
 
     public static enum Team {

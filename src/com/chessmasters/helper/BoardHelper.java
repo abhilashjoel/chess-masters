@@ -167,7 +167,7 @@ public class BoardHelper {
             }
             pattern.add(row);
         }
-        System.out.println(pattern);
+//        System.out.println(pattern);
 
         String s = generateTable(Arrays.asList("h", "h", "h", "h", "h", "h", "h", "h"), pattern);
         System.out.println(s);
@@ -206,11 +206,11 @@ public class BoardHelper {
 
         List<Character> whiteBishops = whiteChessMen.getCharactersByType(ChessMen.BISHOP);
         board.getBoard().put(2, 0, whiteBishops.get(0));
-        board.getBoard().put(5, 0, whiteBishops.get(0));
+        board.getBoard().put(5, 0, whiteBishops.get(1));
 
         List<Character> blackBishops = blackChessMen.getCharactersByType(ChessMen.BISHOP);
         board.getBoard().put(2, 7, blackBishops.get(0));
-        board.getBoard().put(5, 7, blackBishops.get(0));
+        board.getBoard().put(5, 7, blackBishops.get(1));
 
 
         board.getBoard().put(3, 0, whiteChessMen.getCharactersByType(ChessMen.QUEEN).get(0));
