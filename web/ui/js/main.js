@@ -129,6 +129,15 @@ var drop = function(event) {
     board[x2][y2] = board[x1][y1];
     board[x1][y1] = "";
     console.log(board);
+    playOpponentsMoveAndUpdateBoard();
+  }
+
+  function playOpponentsMoveAndUpdateBoard() {
+      fetch("localhost:8081/chess-bot/app/", {
+          method : 'POST',
+          body: JSON.stringify(globals.chessBoard.board)
+      }).then(response => response.json())
+      .then(json => console.log(json))
   }
 
 

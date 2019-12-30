@@ -34,6 +34,7 @@ public class Main {
         BoardHelper.printBoard(board);
         System.out.println(board.getBoard());
         System.out.println(board.getJson());
+        System.out.println(new Gson().toJson(board));
 
 
         for(int i = 0; i < 00; i++) {

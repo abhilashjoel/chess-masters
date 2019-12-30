@@ -224,14 +224,21 @@ public class BoardHelper {
 
 
     public static Board getBoard(List<List<String>> grid) {
-        for(List<String> row : grid) {
-            for(String chessMen : row) {
+        Board cBoard = new Board();
+        Table<Integer, Integer, Character> board = cBoard.getBoard();
+        int id = 0;
+        for(int y = 0; y <= 7; y++) {
+            List<String> row = grid.get(y);
+            for(int x = 0; x <= 7; x++) {
+                String chessMen = row.get(x);
                 if(chessMen != null && !chessMen.isEmpty()) {
-
+                    Character character = CharacterHelper.repToCharacterMap.get(chessMen);
+                    character = new Character(character.getType(), character.getTeam(), id++);
+                    board.put(x, y, character);
                 }
             }
-
         }
+        return cBoard;
     }
 
 

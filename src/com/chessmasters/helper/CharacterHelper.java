@@ -5,7 +5,6 @@ import com.chessmasters.characters.Character;
 import com.chessmasters.characters.ChessMen;
 import com.chessmasters.model.Board;
 import com.chessmasters.model.Move;
-import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 
@@ -38,8 +37,11 @@ public class CharacterHelper {
         put("WR", new Character(ChessMen.ROOK, Character.Team.WHITE));
         put("BKn", new Character(ChessMen.KNIGHT, Character.Team.BLACK));
         put("WKn", new Character(ChessMen.KNIGHT, Character.Team.WHITE));
-        put()
-    }}
+        put("BB", new Character(ChessMen.BISHOP, Character.Team.BLACK));
+        put("WB", new Character(ChessMen.BISHOP, Character.Team.WHITE));
+        put("BP", new Character(ChessMen.PAWN, Character.Team.BLACK));
+        put("WP", new Character(ChessMen.PAWN, Character.Team.WHITE));
+    }};
 
     public static Characters getInitialCharacterSet(Character.Team team)
     {
