@@ -1,0 +1,94 @@
+.tile {
+    border: 0px solid #000;
+    background-size: 75%;
+    background-repeat: no-repeat;
+}
+
+.xyz {
+    border: 5px solid #000;
+    background-size: 75%;
+    background-repeat: no-repeat;
+    height: 200px;
+    width: 200px;
+}
+
+
+.tile-black {
+    background: #bbb;
+    background-size: 75%;
+    background-repeat: no-repeat;
+}
+
+.grid-container-structure {
+    display: grid;
+    border: 4px solid #000;
+    grid-template-columns: auto auto auto auto auto auto auto auto;
+    grid-gap: 0px;
+    padding: 0px;
+    height: 80vmin;
+    margin: 0 auto;
+    width: 80vmin;
+}
+
+.BP {
+    background-image: url("../assets/img/pawn_black.png");
+    background-position: center;
+}
+
+.WP {
+    background-image: url("../assets/img/pawn_white.png");
+    background-position: center;
+}
+
+.BB {
+    background-image: url("../assets/img/bishop_black.png");
+    background-position: center;
+}
+
+.WB {
+    background-image: url("../assets/img/bishop_white.png");
+    background-position: center;
+}
+
+.BK {
+    background-image: url("../assets/img/king_black.png");
+    background-position: center;
+}
+
+.WK {
+    background-image: url("../assets/img/king_white.png");
+    background-position: center;
+}
+
+.BKn {
+    background-image: url("../assets/img/knight_black.png");
+    background-position: center;
+    background-size: cover;
+}
+
+.WKn {
+    background-image: url("../assets/img/kinght_white.png");
+    background-position: center;
+}
+
+.BR {
+    background-image: url("../assets/img/rook_black.png");
+    background-position: center;
+}
+
+.WR {
+    background-image: url("../assets/img/rook_white.png");
+    background-position: center;
+}
+
+.BQ {
+    background-image: url("../assets/img/queen_black.png");
+    background-position: center;
+}
+
+
+.WQ {
+    background-image: url("../assets/img/queen_white.png");
+    background-position: center;
+}
+
