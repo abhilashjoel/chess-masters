@@ -81,14 +81,25 @@ public class Ranker {
         int baseScore = character.getType().getCharcterValue();
         List<Character> guardians = StrategyHelper.whoIsProtectingMe(board, character);
         List<Character> protectees = StrategyHelper.whomAmIProtecting(board, character); // = 1
-        float defensiveScore = protectees.stream()
-                                .map(protectee -> protectee.getType().getCharcterValue() * Constants.DEFENSIVE_FACTOR)
-                                .reduce(0f, Float::sum);
+        float defensiveScore = 0;
+
+        //Protectees who absolutely need support.
+        List<Character> protecteesAtRisk = StrategyHelper.protecteesAtRiskWithoutMe(board, character, protectees);
+        defensiveScore += protecteesAtRisk.stream()
+                .map(protectee -> protectee.getType().getCharcterValue() * Constants.DEFENSIVE_FACTOR)
+                .reduce(0f, Float::sum);
+
+        //These guys are not at risk right now
+        protectees.removeAll(protecteesAtRisk);
+        defensiveScore += protectees.stream()
+                .map(protectee -> protectee.getType().getCharcterValue() * Constants.DEFENSIVE_FACTOR * 0.3f)
+                .reduce(0f, Float::sum);
         List<Character> attackers = StrategyHelper.whoCanAttackMe(board, character, CharacterHelper.getOpponent(character.getTeam()));
+        
 //        System.out.println("Attackers: " + attackers);
         int vulnerabilityScore = 0;
         if(attackers.size() > 0) {
-            vulnerabilityScore = baseScore;
+            vulnerabilityScore = baseScore*2;
             if(guardians.size() > 0){
                 int minScoreOfAttacker = attackers.stream()
                                             .map(attacker -> attacker.getType().getCharcterValue())
@@ -101,6 +112,7 @@ public class Ranker {
 
         List<Character> victims = StrategyHelper.whomCanMyTeamAttack(board, character.getTeam());
         float hitScore = victims.stream()
+                .filter((victim) -> StrategyHelper.whoIsProtectingMe(board, victim).size() == 0)
                 .map(victim -> victim.getType().getCharcterValue() * Constants.HIT_FACTOR)
                 .reduce(0f, Float::sum);
 

@@ -83,6 +83,7 @@ function showChessMen() {
     let id = 0;
     for(let x = 0; x < 8; x++) {
         for(let y = 0; y < 8; y++) {
+            tiles[x][y].classList.remove("BR","BKn","BB","BK","BQ","BB","BKn","BR","BP",  "WR","WKn","WB","WQ","WK","WB","WKn","WR","WP");
             if(chessMen[x][y]){
                 tiles[x][y].classList.add(chessMen[x][y]);
             }
@@ -112,11 +113,13 @@ var drop = function(event) {
     let destTileId = destTile.id;
     console.log("source: ", sourceTileId)
     console.log("dest", destTileId);
-    let sourceTile = document.getElementById(sourceTileId);
-    sourceTile.classList.remove(tileIdPieceMap[sourceTileId])
-    if(tileIdPieceMap[destTileId]){
-        destTile.classList.remove(tileIdPieceMap[destTileId]);
+    if(sourceTileId == destTileId) {
+        console.log("Whatt...");
+        return;
     }
+    let sourceTile = document.getElementById(sourceTileId);
+    sourceTile.classList.remove("BR","BKn","BB","BK","BQ","BB","BKn","BR","BP",  "WR","WKn","WB","WQ","WK","WB","WKn","WR","WP")
+    destTile.classList.remove("BR","BKn","BB","BK","BQ","BB","BKn","BR","BP",  "WR","WKn","WB","WQ","WK","WB","WKn","WR","WP");
     destTile.classList.add(tileIdPieceMap[sourceTileId]);
     tileIdPieceMap[destTileId] = tileIdPieceMap[sourceTileId]
     tileIdPieceMap[sourceTileId] = "";
@@ -132,12 +135,21 @@ var drop = function(event) {
     playOpponentsMoveAndUpdateBoard();
   }
 
+  function playAs(team) {
+    fetch("http://localhost:8081/chess-bot/app?team="+team, {
+        method : 'POST',
+        body: JSON.stringify(globals.chessBoard.board)
+    }).then(response => response.json())
+    .then(json => {
+        console.log(json);
+        globals.chessBoard.board = json;
+        showChessMen()
+    })
+  }
+
+
   function playOpponentsMoveAndUpdateBoard() {
-      fetch("localhost:8081/chess-bot/app/", {
-          method : 'POST',
-          body: JSON.stringify(globals.chessBoard.board)
-      }).then(response => response.json())
-      .then(json => console.log(json))
+    playAs("B")
   }
 
 
@@ -145,3 +157,22 @@ globals.chessBoard = new ChessBoard()
 
 initChessTable();
 showChessMen();
+
+// function sleep(ms) {
+//     return new Promise(resolve => setTimeout(resolve, ms));
+//   }
+
+// async function demo() {
+//     for(let i = 0; i < 300; i++) {
+//         await sleep(1500);
+//         let team = "W";
+//         if(i%2!=0){
+//             team = "B"
+//         }
+//         playAs(team);
+//         showChessMen();
+//     }
+// }
+
+
+///demo()

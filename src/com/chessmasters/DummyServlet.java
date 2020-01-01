@@ -90,7 +90,7 @@ public class DummyServlet extends HttpServlet {
                 break;
             }
             topMoves.add(move);
-            topScore = topScore;
+            topScore = move.getScore();
         }
 
         System.out.println("TopMoves: " + topMoves);

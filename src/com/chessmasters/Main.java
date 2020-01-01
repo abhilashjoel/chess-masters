@@ -1,6 +1,7 @@
 package com.chessmasters;
 
 import com.chessmasters.characters.Character;
+import com.chessmasters.characters.ChessMen;
 import com.chessmasters.helper.BoardHelper;
 import com.chessmasters.helper.CharacterHelper;
 import com.chessmasters.helper.Ranker;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Random;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -36,7 +38,11 @@ public class Main {
         System.out.println(board.getJson());
         System.out.println(new Gson().toJson(board));
 
-
+        List<Character> chs = CharacterHelper.getAllCharactersByTeam(board, Character.Team.WHITE);
+        List<Character> collect = chs.stream()
+                .filter((ch) -> ch.getType().equals(ChessMen.PAWN))
+                .collect(Collectors.toList());
+        System.out.println(collect);
         for(int i = 0; i < 00; i++) {
             Character.Team team = Character.Team.WHITE;
             if(i % 2 == 0)

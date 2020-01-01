@@ -4,6 +4,7 @@ import com.chessmasters.characters.Character;
 import com.chessmasters.characters.Characters;
 import com.chessmasters.characters.ChessMen;
 import com.chessmasters.model.Board;
+import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 
 import java.util.ArrayList;
@@ -225,7 +226,8 @@ public class BoardHelper {
 
     public static Board getBoard(List<List<String>> grid) {
         Board cBoard = new Board();
-        Table<Integer, Integer, Character> board = cBoard.getBoard();
+        Table<Integer, Integer, Character> board = HashBasedTable.create();
+        cBoard.setBoard(board);
         int id = 0;
         for(int y = 0; y <= 7; y++) {
             List<String> row = grid.get(y);
@@ -238,6 +240,7 @@ public class BoardHelper {
                 }
             }
         }
+        System.out.println(board);
         return cBoard;
     }
 

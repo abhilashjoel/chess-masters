@@ -118,7 +118,7 @@ public class CharacterHelper {
         int y = character.getY();
         switch (type) {
             case PAWN:
-                int dy = team.equals(Character.Team.BLACK) ? -1 : 1;
+                int dy = team.equals(Character.Team.BLACK) ? 1 : -1;
                 if(board.get(x, y+dy) == null) {
                     //Pawn can take 1 step ahead as that cell is empty
                     moves.add(new Move(0, dy, characterId));

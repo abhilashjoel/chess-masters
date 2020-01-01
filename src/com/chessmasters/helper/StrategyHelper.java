@@ -131,4 +131,13 @@ public class StrategyHelper {
 //        System.out.println("count: " + count + "   allMoves.size(): " + allMoves.size());
         return allMoves.size();
     }
+
+    public static List<Character> protecteesAtRiskWithoutMe(Board board, Character character, List<Character> protectees) {
+        Board clone = new Board(board);
+        CharacterHelper.enrichPositionInfoForCharacter(clone, character);
+        clone.getBoard().remove(character.getX(), character.getY());
+        return protectees.stream()
+                .filter((protectee) -> whoCanAttackMe(clone, protectee, CharacterHelper.getOpponent(character.getTeam())).size() > 0)
+                .collect(Collectors.toList());
+    }
 }
