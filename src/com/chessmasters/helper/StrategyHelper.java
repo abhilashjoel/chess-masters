@@ -1,8 +1,10 @@
 package com.chessmasters.helper;
 
+import com.chessmasters.Main;
 import com.chessmasters.characters.Character;
 import com.chessmasters.characters.ChessMen;
 import com.chessmasters.model.Board;
+import com.chessmasters.model.Constants;
 import com.chessmasters.model.Move;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
@@ -11,6 +13,7 @@ import com.sun.deploy.util.OrderedHashSet;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -139,5 +142,43 @@ public class StrategyHelper {
         return protectees.stream()
                 .filter((protectee) -> whoCanAttackMe(clone, protectee, CharacterHelper.getOpponent(character.getTeam())).size() > 0)
                 .collect(Collectors.toList());
+    }
+
+
+    public static List<Move> getTopMoves(Board board, Character.Team team, boolean log) {
+
+        List<Character> allPlayers = CharacterHelper.getAllCharactersByTeam(board, team);
+        PriorityQueue<Move> prioritisedMoves = new PriorityQueue<>((move1, move2) -> Main.comp(move1.getScore(), move2.getScore()));
+        for(Character player : allPlayers) {
+            List<Move> moves = CharacterHelper.getAllValidMovesByCharacter(board, player);
+            for(Move move : moves) {
+                float score = 0;
+                try {
+                    score = Ranker.getScoreOfAMove(board, move, log);
+                }catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("Ex: " + move + player);
+                }
+                move.setScore(score);
+                prioritisedMoves.add(move);
+            }
+        }
+
+        if(prioritisedMoves.size() <= 0){
+            for(Character ch : board.getBoard().values()) {
+                System.out.println(ch.getTeam().toString() + ch.getType().toString() + " - " + ch.getId());
+            }
+        }
+
+        List<Move> topMoves = new ArrayList();
+        while(prioritisedMoves.peek() != null) {
+            //TODO should we return all the moves? Might be required in case of check mate
+            if(topMoves.size() == Constants.MAX_BRANCHES) {
+                break;
+            }
+            Move move = prioritisedMoves.poll();
+            topMoves.add(move);
+        }
+        return topMoves;
     }
 }

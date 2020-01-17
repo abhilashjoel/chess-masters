@@ -5,7 +5,7 @@ public enum ChessMen {
     QUEEN(9),
     KING(10),
     KNIGHT(3),
-    BISHOP(3),
+    BISHOP(4),
     ROOK(5),
     ;
 

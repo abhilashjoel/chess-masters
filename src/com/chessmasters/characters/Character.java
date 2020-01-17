@@ -108,6 +108,11 @@ public class Character {
                 .toString();
     }
 
+    public String str(){
+        return getTeam().toString()+getType().toString();
+    }
+
+
     public static enum Team {
         BLACK,
         WHITE;

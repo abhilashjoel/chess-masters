@@ -141,7 +141,7 @@ var drop = function(event) {
         body: JSON.stringify(globals.chessBoard.board)
     }).then(response => response.json())
     .then(json => {
-        console.log(json);
+        console.log(JSON.stringify(json));
         globals.chessBoard.board = json;
         showChessMen()
     })

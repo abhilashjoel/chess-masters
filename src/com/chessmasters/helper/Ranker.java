@@ -1,6 +1,7 @@
 package com.chessmasters.helper;
 
 import com.chessmasters.characters.Character;
+import com.chessmasters.characters.ChessMen;
 import com.chessmasters.model.Board;
 import com.chessmasters.model.Constants;
 import com.chessmasters.model.Move;
@@ -26,9 +27,12 @@ public class Ranker {
      *      >
      */
     public static float getScoreOfAMove(Board board, Move move, boolean log){
-//        System.out.println(move);
+        if(log) {
+            System.out.println(CharacterHelper.getCharacterById(board, move.getCharacterId()).str() + move);
+        }
         float score = 0f;
         Character character = CharacterHelper.getCharacterById(board, move.getCharacterId());
+        CharacterHelper.enrichPositionInfoForCharacter(board, character);
         character = new Character(character);
 
 
@@ -47,17 +51,24 @@ public class Ranker {
         int victimScore = 0;
         Character victim = board.getBoard().get(character.getX(), character.getY());
         if(victim != null) {
-            victimScore += victim.getType().getCharcterValue();
+            if(victim.getType().equals(ChessMen.KING)) {
+                return Constants.WEIGHT_KING * -1;
+            }else {
+                victimScore += victim.getType().getCharcterValue();
+            }
         }
 //        System.out.println("VictimScore: " + victimScore);
 
+        score = (scoreAfterMove - scoreBeforeMove) + victimScore*2;
         if(log)
-            System.out.println("before: " + scoreBeforeMove + " After: " + scoreAfterMove + " victim: " + victimScore);
-        score = (scoreAfterMove - scoreBeforeMove) + victimScore;
+            System.out.println("before: " + scoreBeforeMove + " After: " + scoreAfterMove + " victim: " + victimScore + " Final Score: " + score);
         if(StrategyHelper.isBoardUnderCheck(clonedBoard, character.getTeam())) {
 //            System.out.println("Check");
-            return Float.NEGATIVE_INFINITY;
+            return Constants.WEIGHT_KING * -1;
         }
+
+        if(log)
+            BoardHelper.printBoard(board);
 
         return score;
     }
@@ -97,17 +108,22 @@ public class Ranker {
         List<Character> attackers = StrategyHelper.whoCanAttackMe(board, character, CharacterHelper.getOpponent(character.getTeam()));
         
 //        System.out.println("Attackers: " + attackers);
-        int vulnerabilityScore = 0;
+        float vulnerabilityScore = 0;
         if(attackers.size() > 0) {
-            vulnerabilityScore = baseScore*2;
+            vulnerabilityScore = baseScore;
             if(guardians.size() > 0){
                 int minScoreOfAttacker = attackers.stream()
                                             .map(attacker -> attacker.getType().getCharcterValue())
                                             .reduce(Math::min).get();
-                vulnerabilityScore = baseScore - minScoreOfAttacker;
+                if(minScoreOfAttacker > baseScore) {
+                    vulnerabilityScore = baseScore;
+                }
+                else {
+                    vulnerabilityScore = baseScore - minScoreOfAttacker;
+                }
             }
          } else {
-            vulnerabilityScore = guardians.size() > 0 ? -1 : 0;
+            vulnerabilityScore = guardians.size() > 0 ? -2 * Constants.DEFENSIVE_FACTOR : -1 * Constants.DEFENSIVE_FACTOR;
         }
 
         List<Character> victims = StrategyHelper.whomCanMyTeamAttack(board, character.getTeam());

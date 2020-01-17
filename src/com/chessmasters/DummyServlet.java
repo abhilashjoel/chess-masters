@@ -2,6 +2,7 @@ package com.chessmasters;
 
 import com.chessmasters.characters.Character;
 import com.chessmasters.helper.BoardHelper;
+import com.chessmasters.helper.BruteForceMoveRanker;
 import com.chessmasters.helper.CharacterHelper;
 import com.chessmasters.helper.Ranker;
 import com.chessmasters.model.Board;
@@ -58,7 +59,7 @@ public class DummyServlet extends HttpServlet {
 
 
         List<Character> allPlayers = CharacterHelper.getAllCharactersByTeam(board, team);
-        float maxScore = Float.NEGATIVE_INFINITY;
+        float maxScore = Float.MAX_VALUE * -1;
         List<Move> bestMoves = new ArrayList();
         PriorityQueue<Move> prioritisedMoves = new PriorityQueue<>((move1, move2) -> Main.comp(move1.getScore(), move2.getScore()));
         for(Character player : allPlayers) {
@@ -83,7 +84,7 @@ public class DummyServlet extends HttpServlet {
         }
 
         List<Move> topMoves = new ArrayList();
-        float topScore = Float.NEGATIVE_INFINITY;
+        float topScore = Float.MAX_VALUE * -1;
         while(prioritisedMoves.peek() != null) {
             Move move = prioritisedMoves.poll();
             if(move.getScore() < topScore) {
@@ -95,6 +96,9 @@ public class DummyServlet extends HttpServlet {
 
         System.out.println("TopMoves: " + topMoves);
         Move theMove = topMoves.get(new Random().nextInt(topMoves.size()));
+
+
+        theMove = BruteForceMoveRanker.getBestMove(board, team);
         Character characterById = CharacterHelper.getCharacterById(board, theMove.getCharacterId());
         CharacterHelper.makeAMove(board, characterById, theMove);
 

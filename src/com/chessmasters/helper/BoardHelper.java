@@ -161,7 +161,7 @@ public class BoardHelper {
             for (int j = 0; j < 8; j++) {
                 if(table.get(j, i) != null) {
                     Character character = table.get(j, i);
-                    row.add(character.getTeam().toString()+character.getType().toString());
+                    row.add(character.getId()+character.getTeam().toString()+character.getType().toString());
                 }else{
                     row.add("");
                 }

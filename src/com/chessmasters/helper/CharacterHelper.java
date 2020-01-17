@@ -214,7 +214,7 @@ public class CharacterHelper {
     public static List<Move> getAllMovesForQRB(Set<List<Integer>> baseMoves, Character character){
         List<Move> moves = new ArrayList();
         for(List<Integer> baseMove : baseMoves) {
-            for (int multiple = 1; multiple < 7; multiple++) {
+            for (int multiple = 1; multiple <= 7; multiple++) {
                 moves.add(new Move(baseMove.get(0) * multiple, baseMove.get(1) * multiple, character.getId()));
             }
         }
@@ -223,6 +223,10 @@ public class CharacterHelper {
 
 
     public static void makeAMove(Board cBoard, Character character, Move move){
+        enrichPositionInfoForCharacter(cBoard, character);
+        if(!isPositionWithinBoard(character.getX() + move.getDx(), character.getY() + move.getDy())) {
+            System.out.println("This move is outside the board");
+        }
         Table<Integer, Integer, Character> board = cBoard.getBoard();
         board.remove(character.getX(), character.getY());
         board.put(character.getX() + move.getDx(), character.getY() + move.getDy(), character);
@@ -263,7 +267,7 @@ public class CharacterHelper {
                 if(board.get(i, j) != null && board.get(i, j).getId() == characterId) {
                     Character character = board.get(i, j);
                     enrichPositionInfoForCharacter(cBoard, character);
-                    return character;
+                    return new Character(character);
                 }
             }
         }

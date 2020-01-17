@@ -49,7 +49,7 @@ public class Main {
                 team = Character.Team.BLACK;
 
             List<Character> allPlayers = CharacterHelper.getAllCharactersByTeam(board, team);
-            float maxScore = Float.NEGATIVE_INFINITY;
+            float maxScore = Float.MAX_VALUE * -1;
             List<Move> bestMoves = new ArrayList();
             PriorityQueue<Move> prioritisedMoves = new PriorityQueue<>((move1, move2) -> comp(move1.getScore(), move2.getScore()));
             for(Character player : allPlayers) {

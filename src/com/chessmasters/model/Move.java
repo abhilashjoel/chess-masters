@@ -69,6 +69,7 @@ public class Move {
         return MoreObjects.toStringHelper(this)
                 .add("dx", dx)
                 .add("dy", dy)
+                .add("Score", score)
                 .add("characterId", characterId)
                 .toString();
     }
