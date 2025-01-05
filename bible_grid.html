@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bible Book Selector</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 10px;
+        }
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            text-align: center;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .selection {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .selection input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .selection button {
+            background-color: #28a745;
+        }
+        .selection button:hover {
+            background-color: #218838;
+        }
+        #controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="selection">
+            <input type="text" id="selected-text" readonly>
+            <button onclick="copyToClipboard()">Copy</button>
+        </div>
+
+        <div id="controls">
+            <button onclick="showBooks()">Book</button>
+            <button onclick="showChapters()">Chapter</button>
+            <button onclick="showVerses()">Verse</button>
+            <button onclick="resetSelection()">Reset</button>
+        </div>
+
+        <div id="categories">
+            <h3>Old Testament</h3>
+            <div class="grid" id="old-testament">
+                <!-- Old Testament buttons will be dynamically generated -->
+            </div>
+
+            <h3>New Testament</h3>
+            <div class="grid" id="new-testament">
+                <!-- New Testament buttons will be dynamically generated -->
+            </div>
+        </div>
+
+        <div id="chapters" style="display: none;">
+            <h3>Select Chapter</h3>
+            <div class="grid" id="chapter-grid">
+                <!-- Chapter buttons will be dynamically generated -->
+            </div>
+        </div>
+
+        <div id="verses" style="display: none;">
+            <h3>Select Verse</h3>
+            <div class="grid" id="verse-grid">
+                <!-- Verse buttons will be dynamically generated -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const books = {
+                "Old Testament": ["Genesis", "Exodus", "Leviticus", "Numbers", "Deuteronomy", "Joshua", "Judges", "Ruth", "1 Samuel", "2 Samuel", "1 Kings", "2 Kings", "1 Chronicles", "2 Chronicles", "Ezra", "Nehemiah", "Esther", "Job", "Psalms", "Proverbs", "Ecclesiastes", "Song of Solomon", "Isaiah", "Jeremiah", "Lamentations", "Ezekiel", "Daniel", "Hosea", "Joel", "Amos", "Obadiah", "Jonah", "Micah", "Nahum", "Habakkuk", "Zephaniah", "Haggai", "Zechariah", "Malachi"],
+                "New Testament": ["Matthew", "Mark", "Luke", "John", "Acts", "Romans", "1 Corinthians", "2 Corinthians", "Galatians", "Ephesians", "Philippians", "Colossians", "1 Thessalonians", "2 Thessalonians", "1 Timothy", "2 Timothy", "Titus", "Philemon", "Hebrews", "James", "1 Peter", "2 Peter", "1 John", "2 John", "3 John", "Jude", "Revelation"]
+            };
+
+            const oldTestamentDiv = document.getElementById("old-testament");
+            const newTestamentDiv = document.getElementById("new-testament");
+            const chapterDiv = document.getElementById("chapters");
+            const chapterGrid = document.getElementById("chapter-grid");
+            const verseDiv = document.getElementById("verses");
+            const verseGrid = document.getElementById("verse-grid");
+            const selectedText = document.getElementById("selected-text");
+
+            let selectedBook = "";
+            let selectedChapter = "";
+            let selectedVerse = "";
+
+            // Generate buttons for books
+            function generateBookButtons() {
+                books["Old Testament"].forEach(book => {
+                    const button = document.createElement("button");
+                    button.textContent = book;
+                    button.onclick = () => selectBook(book);
+                    oldTestamentDiv.appendChild(button);
+                });
+
+                books["New Testament"].forEach(book => {
+                    const button = document.createElement("button");
+                    button.textContent = book;
+                    button.onclick = () => selectBook(book);
+                    newTestamentDiv.appendChild(button);
+                });
+            }
+
+            // Select book and show chapters
+            function selectBook(book) {
+                selectedBook = book;
+                selectedText.value = selectedBook;
+                chapterDiv.style.display = "block";
+                verseDiv.style.display = "none";
+                document.getElementById("categories").style.display = "none";
+                chapterGrid.innerHTML = "";
+
+                for (let i = 1; i <= 50; i++) { // Assume max 50 chapters for simplicity
+                    const button = document.createElement("button");
+                    button.textContent = i;
+                    button.onclick = () => selectChapter(i);
+                    chapterGrid.appendChild(button);
+                }
+            }
+
+            // Select chapter and show verses
+            function selectChapter(chapter) {
+                selectedChapter = chapter;
+                selectedText.value = `${selectedBook} ${selectedChapter}`;
+                verseDiv.style.display = "block";
+                chapterDiv.style.display = "none";
+                verseGrid.innerHTML = "";
+
+                for (let i = 1; i <= 40; i++) { // Assume max 40 verses for simplicity
+                    const button = document.createElement("button");
+                    button.textContent = i;
+                    button.onclick = () => selectVerse(i);
+                    verseGrid.appendChild(button);
+                }
+            }
+
+            // Select verse and show full selection
+            function selectVerse(verse) {
+                selectedVerse = verse;
+                selectedText.value = `${selectedBook} ${selectedChapter}:${selectedVerse}`;
+            }
+
+            // Copy selection to clipboard
+            function copyToClipboard() {
+                selectedText.select();
+                document.execCommand("copy");
+            }
+
+            // Reset the selection
+            function resetSelection() {
+                selectedBook = "";
+                selectedChapter = "";
+                selectedVerse = "";
+                selectedText.value = "";
+                document.getElementById("categories").style.display = "block";
+                chapterDiv.style.display = "none";
+                verseDiv.style.display = "none";
+            }
+
+            // Show books grid
+            function showBooks() {
+                document.getElementById("categories").style.display = "block";
+                chapterDiv.style.display = "none";
+                verseDiv.style.display = "none";
+            }
+
+            // Show chapters grid
+            function showChapters() {
+                if (selectedBook) {
+                    chapterDiv.style.display = "block";
+                    document.getElementById("categories").style.display = "none";
+                    verseDiv.style.display = "none";
+                }
+            }
+
+            // Show verses grid
+            function showVerses() {
+                if (selectedChapter) {
+                    verseDiv.style.display = "block";
+                    chapterDiv.style.display = "none";
+                }
+            }
+
+            generateBookButtons();
+        });
+    </script>
+</body>
+</html>
